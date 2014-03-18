@@ -12,13 +12,16 @@ class Output():
         return self.__help_prompt
 
     def show_lists(self):
-
         return self.content
 
     def show_list(self, index):
         self.index = index - 1
-        filename = self.lists[self.index][4:].replace(' ', '_').lower().strip('\n') + '.txt'
-        print (filename)
+        if self.index > len(self.lists):
+            return "List with unique identifier {} was not found!".format(self.index + 1)
+        if self.index < 10:
+            filename = self.lists[self.index][4:].replace(' ', '_').lower().strip('\n') + '.txt'
+        else:
+            filename = self.lists[self.index][5:].replace(' ', '_').lower().strip('\n') + '.txt'
         file = open(filename, 'r')
         list_contents = file.read()
         file.close()
