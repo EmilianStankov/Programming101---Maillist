@@ -1,5 +1,6 @@
 import unittest
 import output
+import list_input
 
 
 class TestOutput(unittest.TestCase):
@@ -24,6 +25,16 @@ class TestOutput(unittest.TestCase):
 
     def test_show_list_contents(self):
         self.assertEqual("[1] Radoslav Georgeiv - radorado@hackbulgaria.com\n[2] Ivaylo Bachvaroff - ivo@hackbulgaria.com", self.out.show_list(1))
+
+    def test_show_lists_contents_out_of_range(self):
+        self.assertEqual("List with unique identifier 45 was not found!", self.out.show_list(45))
+
+
+#class TestInput(unittest.TestCase):
+#    def setUp(self):
+
+#    def test_search_email(self):
+#        self.assertEqual("<ivo@hackbulgaria.com> was found in:\n[1] Hack Bulgaria\n[2] HackFMI", self.list_input.search_email("ivo@hackbulgaria.com"))
 
 if __name__ == '__main__':
     unittest.main()
