@@ -12,7 +12,6 @@ class Output():
         return self.__help_prompt
 
     def show_lists(self):
-
         return self.content
 
     def show_list(self, index):
