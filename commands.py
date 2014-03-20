@@ -1,6 +1,7 @@
 from user import User
 from list import List
 
+<<<<<<< HEAD
 list_of_lists = ['first', 'second'] # a test list, needs to be implemented for the program to work
 
 def welcome_massage():
@@ -36,3 +37,40 @@ def show_list(identifier): #displays the content of a list
 
 
 
+=======
+
+index = 1
+#users_index = 1
+lists = []
+
+def create_list(name):
+    global index
+    global lists
+    mailing_list = List(name)
+    file = open(mailing_list.name, 'w')
+    file.close()
+    file = open('mailing_lists.txt', 'a')
+    file.write('[' + str(index) + '] ' + mailing_list.name + '\n')
+    file.close()
+    lists.append(mailing_list.name)
+    index += 1
+    return mailing_list.name
+
+
+def add(identifier):
+    file = open(lists[identifier - 1], 'a')
+    print(lists)
+    name = input('name >>>')
+    file.write('[' + users_index + '] ' + name + ' - ')
+    email = input('email >>>')
+    file.write(email + '\n')
+    file.close()
+
+
+def main():
+    add(1)
+
+
+if __name__ == '__main__':
+    main()
+>>>>>>> 75336a72586fa00048645fac134d7f2c9b4886da
