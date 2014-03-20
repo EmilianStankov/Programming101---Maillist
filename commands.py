@@ -5,12 +5,10 @@ from list import List
 def create_list(name):
     global lists
     lists = []
-    print(lists)
     file = open('mailing_lists.txt', 'r')
     content = file.readlines()
     file.close
     for line in content:
-        print(line)
         lists.append(''.join(c for c in line if c not in '1234567890\n[] '))
 
     mailing_list = List(name)
