@@ -3,7 +3,7 @@ from list import List
 
 
 index = 1
-users_index = 1
+#users_index = 1
 lists = []
 
 def create_list(name):
@@ -22,8 +22,17 @@ def create_list(name):
 
 def add(identifier):
     file = open(lists[identifier - 1], 'a')
+    print(lists)
     name = input('name >>>')
     file.write('[' + users_index + '] ' + name + ' - ')
     email = input('email >>>')
     file.write(email + '\n')
     file.close()
+
+
+def main():
+    add(1)
+
+
+if __name__ == '__main__':
+    main()
