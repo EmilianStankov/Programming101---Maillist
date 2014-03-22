@@ -45,6 +45,7 @@ def add(identifier):
     file.write(email + '\n')
     file.close()
 
+lists = ['first', 'second'] # a test list, needs to be implemented for the program to work
 
 def welcome_massage():
     print('Hello Stranger! This is a cutting-edge, console-based mail-list!\nType help, to see a list of commands.')
@@ -63,6 +64,7 @@ def show_lists(): #displays all lists
 
 
 def show_list(identifier): #displays the content of a list
+
     name_of_file = lists[identifier - 1]
     file = open(name_of_file, 'r')
     content = file.read()
@@ -70,6 +72,29 @@ def show_list(identifier): #displays the content of a list
     for item in content:
         print(item)
     file.close()
+
+
+def mail_is_in_file(mail, filename):
+	file = open(filename, 'r')
+	contents = file.read()
+	contents = contents.split(' ')
+	file.close()
+	for line in contents:
+		if mail in line:
+				return True
+	return False
+
+def search_email(mail):
+	email_list = []
+	for item in lists:
+		if mail_is_in_file(mail, item):
+			email_list.append(item)
+	if email_list != []:
+		print (mail + ' was foind in:')
+		for item in email_list:
+			print (item)
+	else:
+		print(mail + ' is not present in the current maillists')
 
 
 def main():
