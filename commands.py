@@ -2,17 +2,19 @@ from user import User
 from list import List
 
 
-def create_list(name):
+def create_list(list_name):
     global lists
     lists = []
     file = open('mailing_lists.txt', 'r')
     content = file.readlines()
     file.close()
     for line in content:
-        lists.append(''.join(c for c in line if c not in '1234567890\n[] '))
+        lists.append(line.split('] ')[1].strip())
 
-    mailing_list = List(name)
+    print(lists)
+    mailing_list = List(list_name)
     if mailing_list.name not in lists:
+        print(mailing_list.name)
         file = open(mailing_list.name, 'w')
         file.close()
         if len(content) >= 1:
