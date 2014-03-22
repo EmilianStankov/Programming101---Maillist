@@ -11,7 +11,6 @@ def create_list(list_name):
     for line in content:
         lists.append(line.split('] ')[1].strip())
 
-    print(lists)
     mailing_list = List(list_name)
     if mailing_list.name not in lists:
         print(mailing_list.name)
@@ -66,7 +65,6 @@ def show_lists(): #displays all lists
 
 
 def show_list(identifier): #displays the content of a list
-
     name_of_file = lists[identifier - 1]
     file = open(name_of_file, 'r')
     content = file.read()
@@ -77,26 +75,47 @@ def show_list(identifier): #displays the content of a list
 
 
 def mail_is_in_file(mail, filename):
-	file = open(filename, 'r')
-	contents = file.read()
-	contents = contents.split(' ')
-	file.close()
-	for line in contents:
-		if mail in line:
-				return True
-	return False
+    file = open(filename, 'r')
+    contents = file.read()
+    contents = contents.split(' ')
+    file.close()
+    for line in contents:
+        if mail in line:
+                return True
+    return False
 
 def search_email(mail):
-	email_list = []
-	for item in lists:
-		if mail_is_in_file(mail, item):
-			email_list.append(item)
-	if email_list != []:
-		print (mail + ' was foind in:')
-		for item in email_list:
-			print (item)
-	else:
-		print(mail + ' is not present in the current maillists')
+    email_list = []
+    for item in lists:
+        if mail_is_in_file(mail, item):
+            email_list.append(item)
+    if email_list != []:
+        print (mail + ' was foind in:')
+        for item in email_list:
+            print (item)
+    else:
+        print(mail + ' is not present in the current maillists')
+
+
+def remove_subscriber(list_identifier, name_identifier):
+    name_of_file = lists[list_identifier - 1]
+    file = open(name_of_file, 'r')
+    content = file.read().split('\n')
+    file.close()
+    for i in range(len(content) - 1):
+        exists = False
+        if content[i].startswith('[' + str(name_identifier)):
+            print(content[i])
+            del content[i]
+            print(content[i])
+            print('Subscriber with identifider {} was removed from {}'.format(name_identifier, name_of_file))
+            exists = True
+            break
+    if exists == False:
+        print('Subscriber with identifider {} does not exist in list {}'.format(name_identifier, name_of_file))
+    file = open(name_of_file, 'w')
+    file.write('\n'.join(content))
+    file.close()
 
 
 def main():
@@ -104,8 +123,10 @@ def main():
     create_list('Test_List 2')
     create_list('Test_List 3')
     create_list('Test_List 4')
-    add(1)
     show_lists()
+    add(1)
+    add(1)
+    remove_subscriber(1, 1)
     show_list(1)
 
 
