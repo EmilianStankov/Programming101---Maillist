@@ -29,12 +29,17 @@ def create_list(name):
 
 
 def add(identifier):
+    users_index = 1
     file = open(lists[identifier - 1], 'r')
-    users_index = len(file.readlines())
+    content = file.readlines()
+    if len(content) >= 1:
+        users_index = int(content.pop().split()[0].strip('[]')) + 1
+    else:
+        users_index = 1
     file.close()
     file = open(lists[identifier - 1], 'a')
     name = input('name >>>')
-    file.write('[' + str(users_index + 1) + '] ' + name + ' - ')
+    file.write('[' + str(users_index) + '] ' + name + ' - ')
     email = input('email >>>')
     file.write(email + '\n')
     file.close()
