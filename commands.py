@@ -1,5 +1,6 @@
 from user import User
 from list import List
+import os
 
 
 def create_list(list_name):
@@ -105,9 +106,7 @@ def remove_subscriber(list_identifier, name_identifier):
     for i in range(len(content) - 1):
         exists = False
         if content[i].startswith('[' + str(name_identifier)):
-            print(content[i])
             del content[i]
-            print(content[i])
             print('Subscriber with identifider {} was removed from {}'.format(name_identifier, name_of_file))
             exists = True
             break
@@ -116,6 +115,29 @@ def remove_subscriber(list_identifier, name_identifier):
     file = open(name_of_file, 'w')
     file.write('\n'.join(content))
     file.close()
+
+
+def delete(list_identifier):
+    print('Are you sure you want to delete {}'.format(lists[list_identifier - 1]))
+    answer = input('(Y\\N) >')
+    file = open('mailing_lists.txt', 'r')
+    content = file.readlines()
+    file.close()
+    for i in range(len(content) - 1):
+        exists = False
+        if content[i].startswith('[' + str(list_identifier)):
+            del content[i]
+            exists = True
+            break
+    file = open('mailing_lists.txt', 'w')
+    file.write(''.join(content))
+    file.close()
+    if exists == False:
+        print('There is no list with identifier {}'.format(list_identifier))
+    if answer == 'Y' and exists:
+        os.remove(lists[list_identifier - 1])
+    else:
+        print('You crazy bastard. Stop playing with fire!')
 
 
 def main():
@@ -128,6 +150,8 @@ def main():
     add(1)
     remove_subscriber(1, 1)
     show_list(1)
+    delete(3)
+    show_lists()
 
 
 if __name__ == '__main__':
