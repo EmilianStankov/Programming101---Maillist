@@ -7,7 +7,7 @@ def create_list(name):
     lists = []
     file = open('mailing_lists.txt', 'r')
     content = file.readlines()
-    file.close
+    file.close()
     for line in content:
         lists.append(''.join(c for c in line if c not in '1234567890\n[] '))
 
@@ -15,14 +15,15 @@ def create_list(name):
     if mailing_list.name not in lists:
         file = open(mailing_list.name, 'w')
         file.close()
-        file = open('mailing_lists.txt', 'r')
-        index = len(file.readlines()) + 1
+        if len(content) >= 1:
+            index = int(content.pop().split()[0].strip('[]')) + 1
+        else:
+            index = 1
         file.close()
         file = open('mailing_lists.txt', 'a')
         file.write('[' + str(index) + '] ' + mailing_list.name + '\n')
         file.close()
         lists.append(mailing_list.name)
-        index += 1
         return mailing_list.name
     else:
         print("A list with the name {} exists.".format(mailing_list.name))
@@ -73,6 +74,9 @@ def show_list(identifier): #displays the content of a list
 
 def main():
     create_list('Test_List')
+    create_list('Test_List 2')
+    create_list('Test_List 3')
+    create_list('Test_List 4')
     add(1)
     show_lists()
     show_list(1)
