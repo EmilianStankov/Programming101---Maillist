@@ -2,34 +2,44 @@ from user import User
 from list import List
 
 
-index = 1
-#users_index = 1
-lists = []
-
 def create_list(name):
-    global index
     global lists
+    lists = []
+    file = open('mailing_lists.txt', 'r')
+    content = file.readlines()
+    file.close
+    for line in content:
+        lists.append(''.join(c for c in line if c not in '1234567890\n[] '))
+
     mailing_list = List(name)
-    file = open(mailing_list.name, 'w')
-    file.close()
-    file = open('mailing_lists.txt', 'a')
-    file.write('[' + str(index) + '] ' + mailing_list.name + '\n')
-    file.close()
-    lists.append(mailing_list.name)
-    index += 1
-    return mailing_list.name
+    if mailing_list.name not in lists:
+        file = open(mailing_list.name, 'w')
+        file.close()
+        file = open('mailing_lists.txt', 'r')
+        index = len(file.readlines()) + 1
+        file.close()
+        file = open('mailing_lists.txt', 'a')
+        file.write('[' + str(index) + '] ' + mailing_list.name + '\n')
+        file.close()
+        lists.append(mailing_list.name)
+        index += 1
+        return mailing_list.name
+    else:
+        print("A list with the name {} exists.".format(mailing_list.name))
 
 
 def add(identifier):
+    file = open(lists[identifier - 1], 'r')
+    users_index = len(file.readlines())
+    file.close()
     file = open(lists[identifier - 1], 'a')
-    print(lists)
     name = input('name >>>')
-    file.write('[' + users_index + '] ' + name + ' - ')
+    file.write('[' + str(users_index + 1) + '] ' + name + ' - ')
     email = input('email >>>')
     file.write(email + '\n')
     file.close()
 
-list_of_lists = ['first', 'second'] # a test list, needs to be implemented for the program to work
+lists = ['first', 'second'] # a test list, needs to be implemented for the program to work
 
 def welcome_massage():
     print('Hello Stranger! This is a cutting-edge, console-based mail-list!\nType help, to see a list of commands.')
@@ -40,22 +50,23 @@ def help():
 
 
 def show_lists(): #displays all lists
-    list_counter = 1
-    for item in list_of_lists: #a list of all lists that have been created
-        print('[' + str(list_counter) + '] ' + item)
-        list_counter = list_counter + 1
+    file = open('mailing_lists.txt', 'r')
+    content = file.readlines()
+    file.close()
+    for line in content:
+        print(line)
 
 
 def show_list(identifier): #displays the content of a list
-    member_counter = 1
-    name_of_file = list_of_lists[identifier - 1]
+
+    name_of_file = lists[identifier - 1]
     file = open(name_of_file, 'r')
     content = file.read()
     content = content.split('\n')
     for item in content:
-        print('[' + str(member_counter) + '] ' + item)
-        member_counter = member_counter + 1
+        print(item)
     file.close()
+
 
 def mail_is_in_file(mail, filename):
 	file = open(filename, 'r')
@@ -69,7 +80,7 @@ def mail_is_in_file(mail, filename):
 
 def search_email(mail):
 	email_list = []
-	for item in list_of_lists:
+	for item in lists:
 		if mail_is_in_file(mail, item):
 			email_list.append(item)
 	if email_list != []:
@@ -79,3 +90,13 @@ def search_email(mail):
 	else:
 		print(mail + ' is not present in the current maillists')
 
+
+def main():
+    create_list('Test_List')
+    add(1)
+    show_lists()
+    show_list(1)
+
+
+if __name__ == '__main__':
+    main()
