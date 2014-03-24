@@ -1,6 +1,7 @@
 from user import User
 from list import List
 import os
+import json
 
 
 def create_list(list_name):
@@ -140,6 +141,20 @@ def delete(list_identifier):
         print('You crazy bastard. Stop playing with fire!')
 
 
+def export(identifier):
+    file = open(lists[identifier - 1], 'r')
+    content = file.readlines()
+    print(content)
+    file.close()
+    file = open(lists[identifier - 1] + '.json', 'w')
+    file.write('[\n')
+    for line in content:
+        file.write('\t{\n\t\t\"name\" : ' + line.split()[1] + ',\n' +
+                   '\t\t\"email\" : ' + line.split()[3] + '\n\t},\n')
+    file.write(']')
+    file.close()
+
+
 def main():
     create_list('Test_List')
     create_list('Test_List 2')
@@ -152,6 +167,7 @@ def main():
     show_list(1)
     delete(3)
     show_lists()
+    export(1)
 
 
 if __name__ == '__main__':
