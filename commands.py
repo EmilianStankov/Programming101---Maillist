@@ -149,25 +149,32 @@ def export(identifier):
     file = open(lists[identifier - 1] + '.json', 'w')
     file.write('[\n')
     for line in content:
-        file.write('\t{\n\t\t\"name\" : ' + line.split()[1] + ',\n' +
-                   '\t\t\"email\" : ' + line.split()[3] + '\n\t},\n')
+        file.write('\t{\n\t\t\"name\" : \"' + line.split()[1] + '\",\n' +
+                   '\t\t\"email\" : \"' + line.split()[3] + '\"\n\t},\n')
     file.write(']')
     file.close()
 
 
+def import_json(filename):
+    file = open(filename, 'r')
+    content = file.read()
+    for char in ' \t\",][{}':
+        content = content.replace(char, '')
+    content = content.split('\n\n')
+    content = content[1:len(content) - 1]
+    file.close()
+    print(content)
+    create_list(filename[:-5].replace('_', ' '))
+    file = open(filename[:-5].replace('_', ' '), 'w')
+    for i in range(len(content)):
+        file.write('[' + str(i + 1) + '] ' +
+            content[i].replace('\n', ' ').split()[0][5:] + ' - ' +
+            content[i].replace('\n', ' ').split()[1][6:] + '\n')
+    file.close()
+
+
 def main():
-    create_list('Test_List')
-    create_list('Test_List 2')
-    create_list('Test_List 3')
-    create_list('Test_List 4')
-    show_lists()
-    add(1)
-    add(1)
-    remove_subscriber(1, 1)
-    show_list(1)
-    delete(3)
-    show_lists()
-    export(1)
+    import_json('Fools_and_Fools.json')
 
 
 if __name__ == '__main__':
